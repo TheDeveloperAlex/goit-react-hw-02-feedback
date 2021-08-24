@@ -1,64 +1,45 @@
 import React, { Component } from 'react'
 import Interface from './Interface/Interface';
 import Statistics from './Statistics/Statistics';
+import Notification from './Notification/Notification';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 
 class App extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
-    total: 0,
+    percentage: 0,
   };
 
-  countTotalFeedback = () => {
-    // console.log(this.state);
-    this.setState(prev => {
-      return { total: this.state.bad + this.state.good + this.state.neutral }
+  
+
+  countPositiveFeedbackPercentage = () => {
+      this.setState(prev => {
+      return { percentage: (Math.floor((this.state.good * 100)  / (this.state.bad + this.state.good + this.state.neutral) )) || 0 }
     });
-    }
-    countGoodFeedback = () => {
-      console.log(this.state);
-      this.setState(prev => {
-        return { good: prev.good + 1 }
-      });
-      console.log(this.state.good);
-      this.countTotalFeedback();
-    };
+  }
 
-    countNeutralFeedback = () => {
+  updateStat = (property) => {
       this.setState(prev => {
-        return { neutral: prev.neutral + 1 }
+        return { [property]: prev[property] + 1 }
       });
-      this.countTotalFeedback();
-    };
-
-    countBadFeedback = () => {
-      this.setState(prev => {
-        return {
-          bad: prev.bad + 1
-        
-        }
-      });
-      this.countTotalFeedback();
-    };
-  
-  
-    // const total = this.state.bad + this.state.good + this.state.neutral;
-    // return total;
-  
-
+      this.countPositiveFeedbackPercentage();
+  };
 
 
   render() {
     return (
       <>
         <Interface />
-        <div>
-          <button type="button" onClick={this.countGoodFeedback } >good</button>
-          <button type="button" onClick={this.countNeutralFeedback} >neutral</button> 
-          <button type="button" onClick={this.countBadFeedback} >bad</button>
-        </div>
-        <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad} total={this.state.total} />
+        {/* <FeedbackOptions options={ } onLeaveFeedback={ } > */}
+          <div>
+            <button type="button" onClick={() => this.updateStat('good')}>good</button>
+            <button type="button" onClick={() => this.updateStat('neutral')}>neutral</button> 
+            <button type="button" onClick={() => this.updateStat('bad')}>bad</button>
+          </div>
+        {/* </FeedbackOptions> */}
+        <Statistics good={this.state.good} neutral={this.state.neutral} bad={this.state.bad} total={this.state.bad + this.state.good + this.state.neutral} percentage={this.state.percentage}  message='No feedback given' />
       </>
     )
     
