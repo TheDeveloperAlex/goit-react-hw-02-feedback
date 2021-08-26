@@ -1,3 +1,4 @@
+
 const Statistics = ({ good, neutral, bad, total, percentage }) => {
     
 return (

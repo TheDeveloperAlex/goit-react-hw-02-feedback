@@ -23,35 +23,12 @@ class App extends Component {
     return res;
   }
 
-  // updateStat = (property) => {
-  //     this.setState(prev => {
-  //       return { [property]: prev[property] + 1 }
-  //     });
-  //     this.countPositiveFeedbackPercentage();
-  // };
-
-  good = () => {
-    this.setState(prev => {
-        return { good: prev.good + 1 }
+  updateStat = (property) => {
+      this.setState(prev => {
+        return { [property]: prev[property] + 1 }
       });
       this.countPositiveFeedbackPercentage();
-    
-  }
-   neutral = () => {
-    this.setState(prev => {
-        return { neutral: prev.neutral + 1 }
-      });
-      this.countPositiveFeedbackPercentage();
-  }
-   bad = () => {
-    this.setState(prev => {
-        return { bad: prev.bad + 1 }
-      });
-      this.countPositiveFeedbackPercentage();
-  }
-
-
-
+  };
 
   render() {
     const { good, bad, neutral } = this.state;
@@ -62,7 +39,7 @@ class App extends Component {
     return (
       <>
         <Section title="Leave feedback">
-          <FeedbackOptions good={this.good} neutral={this.neutral} bad={this.bad} />
+          <FeedbackOptions fn={this.updateStat} />
         </Section>
         
       <Section title="Statistics">
